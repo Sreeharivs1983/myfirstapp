@@ -1,3 +1,4 @@
+/*
 // Import React hooks
 // useState → allows component to store changing data (state)
 // useEffect → allows side effects like timers, API calls, subscriptions
@@ -15,20 +16,20 @@ function App() {
     Why state?
     Because when state changes,
     React automatically re-renders the component.
-  */
+  
   const [time, setTime] = useState(new Date());
 
-  /*
+  
     EFFECT SECTION
     --------------
     useEffect runs after the component is mounted (first rendered).
 
     The empty dependency array [] means:
     "Run this effect only once when component loads."
-  */
+  
   useEffect(() => {
 
-    /*
+    
       setInterval duty:
       Every 1000 milliseconds (1 second),
       update the state with new Date().
@@ -36,32 +37,82 @@ function App() {
       When setTime() runs,
       React detects state change,
       React re-renders the component automatically.
-    */
+    
     const interval = setInterval(() => {
       setTime(new Date());
     }, 1000);
 
-    /*
+    
       Cleanup function:
       When component unmounts,
       clear the interval to prevent memory leaks.
 
       This is very important in real applications.
-    */
+    
     return () => clearInterval(interval);
 
-  }, []); // Empty dependency array
+  }, []); Empty dependency array
 
-  /*
+  
     JSX SECTION
     ------------
     React returns UI based on current state.
     time.toLocaleTimeString() converts Date into readable time.
-  */
+  
   return (
     <div>
       <h1>Hello, world!</h1>
       <h2>The time now is {time.toLocaleTimeString()}.</h2>
+    </div>
+  );
+}
+
+export default App;
+*/
+
+
+
+
+
+import { useState, useEffect } from "react";
+
+function App() {
+
+  /*
+    STATE:
+    time → stores current date-time
+    setTime → updates time state
+  */
+  const [time, setTime] = useState(new Date());
+
+  /*
+    EFFECT:
+    Runs once when component loads.
+    Sets interval to update time every second.
+  */
+  useEffect(() => {
+
+    const interval = setInterval(() => {
+      setTime(new Date());  // Updating state triggers re-render
+    }, 1000);
+
+    // Cleanup to prevent memory leak
+    return () => clearInterval(interval);
+
+  }, []);
+
+  return (
+    <div>
+      <h1>Hello, world!</h1>
+
+      {/* 
+        Display both date and time.
+        These automatically update because state changes every second.
+      */}
+      <h2>
+        It is {time.toLocaleDateString()} 
+        and the time now is {time.toLocaleTimeString()}.
+      </h2>
     </div>
   );
 }
